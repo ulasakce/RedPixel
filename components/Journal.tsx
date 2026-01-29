@@ -33,7 +33,7 @@ const Journal: React.FC = () => {
                      <span className="font-pixel text-[10px] opacity-30">{log.tag}</span>
                      <span className="font-pixel text-[10px]">{log.date}</span>
                      <div className="w-10 h-10 border-2 border-black group-hover:border-white flex items-center justify-center font-pixel text-xs">
-                        {"->"}
+                        ->
                      </div>
                   </div>
                </div>
