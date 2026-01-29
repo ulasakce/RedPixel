@@ -1,54 +1,45 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
-/**
- * Wix Studio Custom Element Desteği
- */
-class RedPixelElement extends HTMLElement {
-  private root: ReactDOM.Root | null = null;
-
-  connectedCallback() {
-    if (!this.root) {
-      this.root = ReactDOM.createRoot(this);
-    }
-    this.render();
-  }
-
-  render() {
-    if (this.root) {
-      this.root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
-    }
-  }
-
-  disconnectedCallback() {
-    if (this.root) {
-      this.root.unmount();
-      this.root = null;
-    }
-  }
-}
-
-// Custom Element'i tanımla
-if (typeof window !== 'undefined' && !customElements.get('red-pixel-app')) {
-  customElements.define('red-pixel-app', RedPixelElement);
-}
-
-/**
- * Standart Root Mount (Vercel Önizleme için)
- * index.html içindeki id="root" olan div'i hedefler.
- */
+// 1. Standart Mount (Doğrudan Vercel linkiyle açıldığında)
 const rootElement = document.getElementById('root');
-if (rootElement && !rootElement.hasChildNodes()) {
-  const root = ReactDOM.createRoot(rootElement);
+if (rootElement) {
+  const root = createRoot(rootElement);
   root.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
   );
+}
+
+// 2. Wix Custom Element Tanımı (Wix Studio içinde kullanıldığında)
+class RedPixelApp extends HTMLElement {
+  private root: any = null;
+
+  connectedCallback() {
+    // Kendi içine bir container oluşturur
+    const container = document.createElement('div');
+    container.style.width = '100%';
+    container.style.height = '100%';
+    this.appendChild(container);
+
+    this.root = createRoot(container);
+    this.root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  }
+
+  disconnectedCallback() {
+    if (this.root) {
+      this.root.unmount();
+    }
+  }
+}
+
+if (typeof window !== 'undefined' && !customElements.get('red-pixel-app')) {
+  customElements.define('red-pixel-app', RedPixelApp);
 }
