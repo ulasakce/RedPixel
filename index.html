@@ -17,6 +17,14 @@
             --ui-white: #FFFFFF;
             --ui-dark: #0A0A0A;
         }
+
+        /* Global Page Scaling - 75% */
+        body {
+            zoom: 0.75; /* Standard-ish for rapid scaling without layout breakage */
+            -moz-transform: scale(0.75);
+            -moz-transform-origin: top center;
+        }
+
         * {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Crect width='4' height='4' fill='black' stroke='white' stroke-width='0.5'/%3E%3C/svg%3E"), auto;
         }
