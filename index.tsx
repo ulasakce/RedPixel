@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 import App from './App';
 
 // 1. Standart Mount (Doğrudan Vercel linkiyle açıldığında)
@@ -16,17 +16,18 @@ if (rootElement) {
 
 // 2. Wix Custom Element Tanımı (Wix Studio içinde kullanıldığında)
 class RedPixelApp extends HTMLElement {
-  private root: any = null;
+  private rootInstance: Root | null = null;
 
   connectedCallback() {
     // Kendi içine bir container oluşturur
     const container = document.createElement('div');
     container.style.width = '100%';
     container.style.height = '100%';
+    container.style.display = 'block';
     this.appendChild(container);
 
-    this.root = createRoot(container);
-    this.root.render(
+    this.rootInstance = createRoot(container);
+    this.rootInstance.render(
       <React.StrictMode>
         <App />
       </React.StrictMode>
@@ -34,8 +35,9 @@ class RedPixelApp extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.root) {
-      this.root.unmount();
+    if (this.rootInstance) {
+      this.rootInstance.unmount();
+      this.rootInstance = null;
     }
   }
 }
