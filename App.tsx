@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -7,8 +6,7 @@ import Services from './components/Services';
 import Footer from './components/Footer';
 import ClientTrust from './components/ClientTrust';
 import Journal from './components/Journal';
-import TerminalContact from './components/TerminalContact';
-import VisualDiagnostic from './components/VisualDiagnostic';
+import Contact from './components/Contact';
 import About from './components/About';
 import RedAI from './components/RedAI';
 
@@ -31,13 +29,11 @@ const App: React.FC = () => {
           <Hero />
           <ClientTrust />
         </section>
-        
+        <About />
         <WorkGrid />
         <Services />
-        <About />
-        <VisualDiagnostic />
         <Journal />
-        <TerminalContact />
+        <Contact />
       </main>
       <RedAI />
       <Footer />

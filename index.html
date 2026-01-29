@@ -3,105 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RedPixel | CGI & Cinematic Studio</title>
+    <title>RedPixel | High-End CGI & Immersive Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #EFEFEF;
-            --brand-red: #C02033;
-            --tech-gray: #D1D1D1;
-            --ui-white: #FFFFFF;
+            --bg-color: #F8F9FA;
+            --brand-red: #E31E24;
+            --brand-red-muted: #C02033;
+            --soft-gray: #E9ECEF;
             --ui-dark: #0A0A0A;
+            --glass: rgba(255, 255, 255, 0.7);
         }
 
-        /* Global Page Scaling - 75% */
-        body {
-            zoom: 0.75; /* Standard-ish for rapid scaling without layout breakage */
-            -moz-transform: scale(0.75);
-            -moz-transform-origin: top center;
-        }
-
-        * {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Crect width='4' height='4' fill='black' stroke='white' stroke-width='0.5'/%3E%3C/svg%3E"), auto;
-        }
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: var(--bg-color);
             color: var(--ui-dark);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.01em;
+            font-size: 14px; /* Slightly smaller base */
         }
-        .font-pixel { font-family: 'Press Start 2P', cursive; }
-        .font-terminal { font-family: 'VT323', monospace; }
-        
-        /* Modern Tech Visuals */
+
+        /* Apple-style Smooth Transitions */
+        * {
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Modern Gradient Overlays */
+        .soft-overlay {
+            background: radial-gradient(circle at top right, rgba(227, 30, 36, 0.04), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.01), transparent 40%);
+        }
+
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--ui-dark);
+        }
+
+        .text-outline-red {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--brand-red);
+        }
+
+        /* Subtle Grain */
         .grain-overlay {
-            position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        .tech-card {
-            background: var(--ui-white);
-            border: 2px solid var(--ui-dark);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .tech-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 10px 10px 0px var(--brand-red);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
-        ::-webkit-scrollbar-thumb { background: var(--brand-red); }
+        ::-webkit-scrollbar-thumb { background: #CCC; border-radius: 10px; }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(0.5deg); }
         }
-        .scanline-effect {
-            position: fixed; top: 0; left: 0; width: 100%; height: 2px;
-            background: rgba(0, 0, 0, 0.02); z-index: 10000;
-            animation: scanline 8s linear infinite; pointer-events: none;
-        }
-        
-        .modal-open { overflow: hidden; }
+        .float-element { animation: float 8s ease-in-out infinite; }
 
-        .glitch-text:hover {
-            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        .btn-luxury {
+            background: var(--ui-dark);
+            color: white;
+            border-radius: 100px;
+            padding: 0.8rem 2rem; /* Reduced padding */
+            font-weight: 600;
+            font-size: 0.75rem; /* Reduced size */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            overflow: hidden;
+            position: relative;
+            border: none;
+        }
+        .btn-luxury::after {
+            content: '';
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-luxury:hover::after { left: 100%; }
+        .btn-luxury:hover { background: var(--brand-red); transform: scale(1.03); box-shadow: 0 10px 30px rgba(227, 30, 36, 0.2); }
+
+        .luxury-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 30px; /* Softer radius */
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .luxury-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(227, 30, 36, 0.05);
+            border-color: rgba(227, 30, 36, 0.08);
         }
 
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+        /* Responsive Text Scaling overrides */
+        @media (min-width: 1400px) {
+            h1 { font-size: 7vw !important; }
+            h2 { font-size: 5vw !important; }
         }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom": "https://esm.sh/react-dom@^19.2.4",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom": "https://esm.sh/react-dom@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.38.0",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "react-dom/": "https://esm.sh/react-dom@18.2.0/"
   }
 }
 </script>
+<script async src="//www.instagram.com/embed.js"></script>
 </head>
-<body>
+<body class="soft-overlay">
     <div id="root"></div>
     <div class="grain-overlay"></div>
-    <div class="scanline-effect"></div>
-    <!-- Entry point for the application -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
