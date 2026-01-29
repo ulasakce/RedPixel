@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 interface Project {
@@ -16,7 +15,6 @@ interface Project {
   }
 }
 
-// Expanded Simulated Instagram Feed for @redpixelcgi
 const instagramFeed: Project[] = [
   {
     title: "VIRTUAL_SNEAKER_v1",
@@ -53,42 +51,6 @@ const instagramFeed: Project[] = [
     isMyProject: false,
     igLink: "https://instagram.com/redpixelcgi/",
     specs: { polyCount: "8.1M", engine: "Redshift", renderTime: "18H", status: "SYNCED" }
-  },
-  {
-    title: "ORCHID_ROBOTICS",
-    category: "CHARACTER_VFX",
-    image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&q=80&w=1200",
-    tag: '#MyProject',
-    isMyProject: true,
-    igLink: "https://instagram.com/redpixelcgi/",
-    specs: { polyCount: "12M", engine: "Octane", renderTime: "24H", status: "SYNCED" }
-  },
-  {
-    title: "ABSTRACT_GEOMETRY_09",
-    category: "MOTION_GFX",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200",
-    tag: '#Exploration',
-    isMyProject: false,
-    igLink: "https://instagram.com/redpixelcgi/",
-    specs: { polyCount: "1.2M", engine: "C4D", renderTime: "04H", status: "SYNCED" }
-  },
-  {
-    title: "RENDER_FARM_BETA",
-    category: "INFRASTRUCTURE",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=1200",
-    tag: '#MyProject',
-    isMyProject: true,
-    igLink: "https://instagram.com/redpixelcgi/",
-    specs: { polyCount: "N/A", engine: "Server_Node", renderTime: "Continuous", status: "ONLINE" }
-  },
-  {
-    title: "COSMIC_DUST_SIM",
-    category: "VFX_PARTICLES",
-    image: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=1200",
-    tag: '#MyProject',
-    isMyProject: true,
-    igLink: "https://instagram.com/redpixelcgi/",
-    specs: { polyCount: "100M_Particles", engine: "Houdini", renderTime: "72H", status: "SYNCED" }
   }
 ];
 
@@ -102,42 +64,36 @@ const WorkGrid: React.FC = () => {
     const timer = setTimeout(() => {
       setProjects(instagramFeed);
       setIsSyncing(false);
-    }, 1500);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
   const filteredProjects = projects.filter(p => filter === 'ALL' || p.tag === filter);
 
-  useEffect(() => {
-    if (selected) document.body.classList.add('modal-open');
-    else document.body.classList.remove('modal-open');
-  }, [selected]);
-
   return (
-    <section id="work" className="bg-[#FFFFFF] py-40 border-t-8 border-black/5 relative min-h-[800px]">
-      <div className="container">
+    <section id="work" className="bg-[#FFFFFF] py-40 relative min-h-[800px] border-t border-black/5">
+      <div className="container-fluid px-8 lg:px-20">
         
-        {/* Sync Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-12">
-           <div className="max-w-3xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`w-3 h-3 ${isSyncing ? 'bg-orange-500 animate-pulse' : 'bg-green-500'}`}></div>
-                <span className="font-pixel text-[9px] text-black/40 tracking-[0.4em] font-bold uppercase">
-                  {isSyncing ? 'ACCESSING_INSTAGRAM_DATABASE...' : 'FETCH_COMPLETE: 100%_SYNC'}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-32 gap-12">
+           <div className="max-w-4xl">
+              <div className="flex items-center gap-4 mb-8">
+                <div className={`w-2 h-2 ${isSyncing ? 'bg-orange-500 animate-pulse' : 'bg-green-500'}`}></div>
+                <span className="font-pixel text-[8px] text-black/30 tracking-[0.3em] uppercase">
+                  {isSyncing ? 'ESTABLISHING_DATALINK...' : 'DATALINK_STABLE // @REDPIXELCGI'}
                 </span>
               </div>
-              <h2 className="text-6xl lg:text-8xl font-bold uppercase tracking-tighter leading-none text-black">
-                @redpixelcgi <br />
-                <span className="text-[#C02033]">Full_Feed.</span>
+              <h2 className="text-7xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85] text-black">
+                SELECTED<br />
+                <span className="text-[#C02033]">OUTPUTS.</span>
               </h2>
            </div>
            
-           <div className="flex flex-wrap gap-4 p-2 bg-black/5 border-2 border-black rounded-2xl">
+           <div className="flex gap-2 p-1 bg-[#F5F5F5] border border-black/10 rounded-lg">
               {['ALL', '#MyProject', '#ClientWork'].map((f) => (
                 <button 
                   key={f}
                   onClick={() => setFilter(f as any)}
-                  className={`font-pixel text-[8px] px-10 py-4 rounded-xl transition-all uppercase font-bold ${filter === f ? 'bg-black text-white shadow-lg' : 'text-black/30 hover:text-black hover:bg-white'}`}
+                  className={`font-pixel text-[7px] px-6 py-3 rounded-md transition-all uppercase font-bold ${filter === f ? 'bg-black text-white' : 'text-black/40 hover:text-black'}`}
                 >
                   {f}
                 </button>
@@ -146,109 +102,91 @@ const WorkGrid: React.FC = () => {
         </div>
 
         {isSyncing ? (
-          <div className="py-40 flex flex-col items-center justify-center gap-12">
-             <div className="w-24 h-24 border-8 border-black border-t-[#C02033] rounded-none animate-spin"></div>
-             <p className="font-pixel text-[12px] text-black/40 uppercase tracking-[0.6em] animate-pulse">Establishing_Secure_IG_Link...</p>
+          <div className="py-40 flex flex-col items-center justify-center gap-8">
+             <div className="w-12 h-[2px] bg-black animate-[loading_1.5s_infinite]"></div>
+             <p className="font-pixel text-[8px] text-black/30 uppercase tracking-widest">Accessing_Mainframe</p>
           </div>
         ) : (
-          <div className="row g-5 lg:g-6">
+          <div className="row g-6 lg:g-8">
              {filteredProjects.map((item, i) => (
-               <div key={i} className="col-12 col-md-6 col-lg-4">
+               <div key={i} className="col-12 col-md-6">
                   <div 
                     onClick={() => setSelected(item)}
-                    className="group relative cursor-pointer overflow-hidden tech-card rounded-2xl p-4 bg-white"
+                    className="group relative cursor-pointer overflow-hidden border border-black/5 bg-white p-2"
                   >
-                     <div className="aspect-square overflow-hidden bg-[#E5E5E5] border-4 border-black rounded-xl relative">
+                     <div className="aspect-[16/10] overflow-hidden bg-[#EFEFEF] relative">
                         <img 
                           src={item.image} 
-                          className="w-full h-full object-cover transition-all duration-[1s] group-hover:scale-105" 
+                          className="w-full h-full object-cover transition-all duration-[1.5s] grayscale group-hover:grayscale-0 group-hover:scale-105" 
                           alt={item.title} 
                         />
                         
-                        {/* Status Label */}
-                        <div className={`absolute top-4 right-4 px-3 py-1 border-2 border-black font-pixel text-[6px] uppercase font-bold shadow-sm ${item.isMyProject ? 'bg-[#C02033] text-white' : 'bg-white text-black'}`}>
-                           {item.isMyProject ? 'OWN_ASSET' : 'EXTERNAL'}
-                        </div>
-
-                        {/* Hover HUD */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-8 text-center">
-                           <span className="font-pixel text-[8px] text-white mb-4 tracking-widest uppercase">Inspect_Post_Metadata</span>
-                           <div className="w-full h-[1px] bg-white/20 mb-4"></div>
-                           <span className="font-pixel text-[6px] text-white/50 uppercase">Origin: INSTAGRAM_REELS</span>
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                           <span className="bg-white text-black font-pixel text-[8px] px-8 py-4 uppercase font-bold">Inspect_Project</span>
                         </div>
                      </div>
 
-                     <div className="pt-8 px-2">
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-2xl font-bold uppercase tracking-tighter text-black group-hover:text-[#C02033] transition-colors leading-none">{item.title}</h3>
-                          <span className="font-pixel text-[8px] text-[#C02033] font-bold">{item.tag}</span>
+                     <div className="py-8 px-4 flex justify-between items-center">
+                        <div>
+                          <h3 className="text-4xl font-black uppercase tracking-tighter text-black mb-1">{item.title}</h3>
+                          <p className="font-pixel text-[7px] text-black/30 uppercase tracking-widest">{item.category}</p>
                         </div>
-                        <p className="font-pixel text-[6px] text-black/30 uppercase tracking-widest">{item.category}</p>
+                        <div className="flex flex-col items-end">
+                           <span className="font-pixel text-[7px] text-[#C02033] mb-1 font-bold">{item.tag}</span>
+                           <span className="font-pixel text-[6px] text-black/20 uppercase">Core: {item.specs.engine}</span>
+                        </div>
                      </div>
                   </div>
                </div>
              ))}
           </div>
         )}
-
-        <div className="mt-40 p-20 border-8 border-dashed border-black/5 rounded-[3rem] text-center">
-           <h3 className="text-4xl lg:text-6xl font-bold uppercase text-black mb-10 tracking-tighter">See_Every_Frame_Rendered.</h3>
-           <a 
-             href="https://instagram.com/redpixelcgi" 
-             target="_blank" 
-             className="inline-block bg-[#C02033] text-white font-pixel text-[12px] py-8 px-20 border-4 border-black hover:bg-black transition-all shadow-[15px_15px_0px_rgba(0,0,0,0.1)] uppercase font-bold"
-           >
-             Follow_RedPixel_on_IG
-           </a>
-        </div>
       </div>
 
       {selected && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 lg:p-20">
-           <div className="absolute inset-0 bg-white/80 backdrop-blur-xl" onClick={() => setSelected(null)}></div>
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 lg:p-20">
+           <div className="absolute inset-0 bg-white/95 backdrop-blur-sm" onClick={() => setSelected(null)}></div>
            
-           <div className="relative w-full max-w-6xl bg-[#FFFFFF] border-8 border-black shadow-[40px_40px_0px_rgba(0,0,0,0.2)] flex flex-col lg:flex-row overflow-hidden max-h-[90vh]">
-              <div className="w-full lg:w-1/2 h-[40vh] lg:h-auto relative bg-black border-r-8 border-black">
+           <div className="relative w-full max-w-7xl bg-white border border-black/10 flex flex-col lg:flex-row overflow-hidden max-h-[90vh] shadow-2xl">
+              <div className="w-full lg:w-2/3 h-[40vh] lg:h-auto relative bg-black">
                  <img src={selected.image} className="w-full h-full object-cover" alt="Detail" />
-                 <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.4)_100%)]"></div>
               </div>
 
-              <div className="w-full lg:w-1/2 p-12 lg:p-16 flex flex-col">
-                 <div className="flex justify-between items-start mb-12">
+              <div className="w-full lg:w-1/3 p-12 lg:p-16 flex flex-col bg-white">
+                 <div className="flex justify-between items-start mb-16">
                     <div>
-                       <span className="font-pixel text-[9px] text-[#C02033] mb-4 block uppercase font-bold tracking-[0.4em]">INSTAGRAM_FEED_SYNC // {selected.tag}</span>
-                       <h2 className="text-5xl font-bold uppercase leading-none text-black tracking-tighter">{selected.title}</h2>
+                       <span className="font-pixel text-[7px] text-[#C02033] mb-4 block uppercase font-bold tracking-widest">METADATA // SYNC_0{selected.tag === '#MyProject' ? '1' : '2'}</span>
+                       <h2 className="text-5xl font-black uppercase leading-[0.85] text-black tracking-tighter">{selected.title}</h2>
                     </div>
-                    <button onClick={() => setSelected(null)} className="text-black/20 hover:text-[#C02033] transition-all font-pixel text-[14px]">[X]</button>
+                    <button onClick={() => setSelected(null)} className="font-pixel text-[12px] hover:text-red-600 transition-all">[X]</button>
                  </div>
 
-                 <div className="space-y-10 flex-grow">
-                    <div className="p-6 bg-black/5 border-l-8 border-[#C02033]">
+                 <div className="space-y-12 flex-grow">
+                    <div className="p-8 bg-[#F5F5F5] border-l-4 border-black">
                       <p className="text-xl text-black font-bold uppercase leading-tight tracking-tight">
-                        CGI ARCHITECTURE CREATED FOR THE @REDPIXELCGI LABORATORY. 
-                        PIPELINE FOCUS: {selected.specs.engine} HIGH-FIDELITY ASSETS.
+                        FULL CINEMATIC PIPELINE DEPLOYED. FOCUSING ON HIGH-FIDELITY ASSETS AND VOLUMETRIC SIMULATIONS.
                       </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-8">
-                       <div className="p-6 border-4 border-black/5 bg-white">
-                          <div className="font-pixel text-[7px] text-[#C02033] uppercase font-bold mb-3">Complexity</div>
-                          <div className="text-2xl font-bold text-black">{selected.specs.polyCount}</div>
+                       <div>
+                          <div className="font-pixel text-[6px] text-black/30 uppercase mb-2">Complexity</div>
+                          <div className="text-2xl font-black text-black">{selected.specs.polyCount}</div>
                        </div>
-                       <div className="p-6 border-4 border-black/5 bg-white">
-                          <div className="font-pixel text-[7px] text-[#C02033] uppercase font-bold mb-3">Sync_Status</div>
-                          <div className="text-2xl font-bold text-green-600">{selected.specs.status}</div>
+                       <div>
+                          <div className="font-pixel text-[6px] text-black/30 uppercase mb-2">Platform</div>
+                          <div className="text-2xl font-black text-black">{selected.specs.engine}</div>
                        </div>
                     </div>
                  </div>
 
-                 <div className="pt-16 mt-auto border-t-4 border-black/5">
+                 <div className="mt-20">
                     <a 
                        href={selected.igLink}
                        target="_blank"
-                       className="w-full bg-black text-white font-bold text-xl py-6 text-center border-4 border-black shadow-[10px_10px_0px_#C02033] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all uppercase block"
+                       className="w-full bg-black text-white font-bold text-lg py-6 text-center hover:bg-red-600 transition-all uppercase block"
                     >
-                       View_Full_Post
+                       View_on_Instagram
                     </a>
                  </div>
               </div>
